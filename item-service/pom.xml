@@ -8,16 +8,16 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>product-service</artifactId>
+    <artifactId>item-service</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
+            <groupId>com.kathesama.app</groupId>
+            <artifactId>common-domain</artifactId>
         </dependency>
         <dependency>
             <groupId>com.kathesama.app</groupId>
-            <artifactId>common-domain</artifactId>
+            <artifactId>product-service</artifactId>
         </dependency>
     </dependencies>
 
