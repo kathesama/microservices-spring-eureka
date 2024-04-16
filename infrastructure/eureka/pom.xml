@@ -8,7 +8,10 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>item-service</artifactId>
+    <artifactId>eureka</artifactId>
+
+    <properties>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
@@ -25,18 +28,10 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.kathesama.app</groupId>
-            <artifactId>common-domain</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.kathesama.app</groupId>
-            <artifactId>product-service</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <version>${eureka.version}</version>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>

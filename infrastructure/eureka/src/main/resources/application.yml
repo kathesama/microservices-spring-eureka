@@ -1,18 +1,16 @@
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+server:
+  port: 8761
 spring:
   application:
-    name: item-service
+    name: eureka
   jackson:
     default-property-inclusion: non_null
     property-naming-strategy: SNAKE_CASE
-eureka:
-  instance:
-    hostname: localhost
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      default-zone: http://localhost:8761/eureka
+
 #For PostgreSQL
 #  datasource:
 #    url: ${DB_HOST}
@@ -39,3 +37,5 @@ eureka:
 logging:
   level:
     org.hibernate.SQL: debug
+
+

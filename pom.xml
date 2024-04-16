@@ -4,6 +4,18 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <java.version>21</java.version>
+        <org.projectlombok.version>1.18.30</org.projectlombok.version>
+        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <mockito.version>4.3.1</mockito.version>
+        <feign.version>4.1.1</feign.version>
+        <spring-cloud.version>2023.0.1</spring-cloud.version>
+        <eureka.version>4.1.1</eureka.version>
+    </properties>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -23,17 +35,9 @@
         <module>common-domain</module>
         <module>product-service</module>
         <module>item-service</module>
+        <module>infrastructure</module>
+        <module>infrastructure/eureka</module>
     </modules>
-
-    <properties>
-        <java.version>21</java.version>
-        <org.projectlombok.version>1.18.30</org.projectlombok.version>
-        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
-        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
-        <mockito.version>4.3.1</mockito.version>
-        <feign.version>4.1.1</feign.version>
-    </properties>
 
     <dependencyManagement>
         <dependencies>
