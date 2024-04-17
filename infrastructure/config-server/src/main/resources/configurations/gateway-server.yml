@@ -1,0 +1,37 @@
+server:
+  port: 8090
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: gateway-server
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: product-service
+          uri: lb://product-service
+          order: 8000
+          predicates:
+            - Path=/products/api/v1/**
+          filters:
+#            - StripPrefix=1
+        - id: item-service
+          uri: lb://item-service
+          order: 8001
+          predicates:
+            - Path=/items/api/v1/**
+          filters:
+#            - StripPrefix=1
+eureka:
+  client:
+    register-with-eureka: false
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.ipc.netty: DEBUG
+    reactor.netty: DEBUG

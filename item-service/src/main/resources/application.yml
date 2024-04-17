@@ -1,47 +1,5 @@
-server:
-  port: 8001
-
 spring:
   application:
     name: item-service
-  jackson:
-    default-property-inclusion: non_null
-    property-naming-strategy: SNAKE_CASE
   config:
     import: optional:configserver:http://localhost:8888
-
-eureka:
-  instance:
-    hostname: localhost
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka
-
-logging:
-  level:
-    org.hibernate.SQL: debug
-#For PostgreSQL
-#  datasource:
-#    url: ${DB_HOST}
-#    username: ${DB_USER}
-#    password: ${DB_PASSWORD}
-#    driver-class-name: org.postgresql.Driver
-#  jpa:
-#    show-sql: true
-#    hibernate:
-#      ddl-auto: create
-
-#For MYSQL
-#  datasource:
-#    url: ${DB_HOST}
-#    username: ${DB_USER}
-#    password: ${DB_PASSWORD}
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#  jpa:
-#    database-platform: org.hibernate.dialect.MySQLDialect
-#    show-sql: true
-#    hibernate:
-#      ddl-auto: create
