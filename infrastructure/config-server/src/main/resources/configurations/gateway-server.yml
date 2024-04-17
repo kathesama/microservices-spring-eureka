@@ -17,6 +17,7 @@ spring:
           predicates:
             - Path=/products/api/v1/**
           filters:
+            - ExampleCookie=Hello world, user, kathesama
 #            - StripPrefix=1
         - id: item-service
           uri: lb://item-service
@@ -26,8 +27,14 @@ spring:
           filters:
 #            - StripPrefix=1
 eureka:
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
-    register-with-eureka: false
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka
 logging:
   level:
     org.springframework.cloud.gateway: TRACE
