@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Service("itemServiceFeign")
 @Primary
 @RequiredArgsConstructor
+@Service("itemServiceFeign")
 public class ItemServiceFeign implements ItemServiceInputPort {
     private final ProductClientRest feignPersistencePort;
     private final ProductRestMapper productMapper;
