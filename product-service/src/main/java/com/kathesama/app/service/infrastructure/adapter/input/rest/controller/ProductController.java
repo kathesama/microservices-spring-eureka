@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 //@CrossOrigin(origins="http://localhost:4200", originPatterns = "*")
 @RestController
@@ -28,6 +29,7 @@ public class ProductController {
 
     @GetMapping("/api/v1/{id}")
     public ProductResponse findById(@PathVariable Long id) {
+
         return productMapper.toProductResponse(productService.findById(id));
     }
 

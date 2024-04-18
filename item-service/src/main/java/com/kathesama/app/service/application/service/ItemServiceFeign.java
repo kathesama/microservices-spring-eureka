@@ -6,6 +6,7 @@ import com.kathesama.app.service.domain.model.Item;
 import com.kathesama.app.service.infrastructure.adapter.input.rest.mapper.ProductRestMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 

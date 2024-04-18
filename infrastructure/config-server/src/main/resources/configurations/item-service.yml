@@ -8,6 +8,10 @@ spring:
     default-property-inclusion: non_null
     property-naming-strategy: SNAKE_CASE
 
+logging:
+  level:
+    org.hibernate.SQL: debug
+
 eureka:
   instance:
     hostname: localhost
@@ -18,9 +22,27 @@ eureka:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka
 
-logging:
-  level:
-    org.hibernate.SQL: debug
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 6
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 20s
+        permitted-number-of-calls-in-half-open-state: 4
+        slow-call-rate-threshold: 50
+        slow-call-duration-threshold: 2s
+    instances:
+      items:
+        base-config: default
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 2s
+    instances:
+      items:
+        base-config: default
+
 #For PostgreSQL
 #  datasource:
 #    url: ${DB_HOST}

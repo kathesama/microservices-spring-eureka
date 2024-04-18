@@ -23,7 +23,7 @@ spring:
           uri: lb://item-service
           order: 8001
           predicates:
-            - Path=/items/api/v1/**
+            - Path=/items/api/**
           filters:
 #            - StripPrefix=1
 eureka:
