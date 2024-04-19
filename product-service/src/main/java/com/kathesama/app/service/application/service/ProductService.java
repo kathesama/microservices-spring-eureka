@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -18,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class ProductService implements ProductServiceInputPort {
     private final ProductPersistencePort persistencePort;
     @Override
+    @Transactional(readOnly = true)
     public List<Product> findAll() {
         return persistencePort.findAll();
     }
@@ -27,6 +29,7 @@ public class ProductService implements ProductServiceInputPort {
     */
     @SneakyThrows
     @Override
+    @Transactional(readOnly = true)
     public Product findById(Long id)  {
         log.info("looking record for product: {}", id);
 
@@ -49,12 +52,14 @@ public class ProductService implements ProductServiceInputPort {
     }
 
     @Override
+    @Transactional
     public Product save(Product product) {
         log.info("Creating register for product: {}", product.getName());
         return persistencePort.save(product);
     }
 
     @Override
+    @Transactional
     public Product update(Long id, Product product) {
         log.info("Updating register for product: {}", product.getId());
         return persistencePort.findById(id)
@@ -69,6 +74,7 @@ public class ProductService implements ProductServiceInputPort {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         log.info("Deleting register for product: {}", id);
         if (persistencePort.findById(id).isEmpty()) {
@@ -79,6 +85,7 @@ public class ProductService implements ProductServiceInputPort {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean existsBySku(String sku) {
         return false;
     }

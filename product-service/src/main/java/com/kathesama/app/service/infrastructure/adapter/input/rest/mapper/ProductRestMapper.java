@@ -17,6 +17,7 @@ public interface ProductRestMapper {
     Product toProduct(ProductResponse productResponse);
 
     ProductResponse toProductResponse(Product product);
+    ProductCreateRequest toProductCreateRequest(Product product);
 
     List<ProductResponse> toProductResponseList(List<Product> productList);
 }

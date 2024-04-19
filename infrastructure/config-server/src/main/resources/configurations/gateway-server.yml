@@ -18,14 +18,11 @@ spring:
             - Path=/products/api/v1/**
           filters:
             - ExampleCookie=Hello world, user, kathesama
-#            - StripPrefix=1
         - id: item-service
           uri: lb://item-service
           order: 8001
           predicates:
             - Path=/items/api/**
-          filters:
-#            - StripPrefix=1
 eureka:
   instance:
     hostname: localhost

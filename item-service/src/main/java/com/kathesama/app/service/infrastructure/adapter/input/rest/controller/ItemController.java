@@ -3,7 +3,9 @@ package com.kathesama.app.service.infrastructure.adapter.input.rest.controller;
 import com.kathesama.app.common.model.Product;
 import com.kathesama.app.service.application.ports.input.ItemServiceInputPort;
 import com.kathesama.app.service.domain.model.Item;
+import com.kathesama.app.service.infrastructure.adapter.input.rest.dto.model.request.ProductCreateRequest;
 import com.kathesama.app.service.infrastructure.adapter.input.rest.dto.model.response.ItemResponse;
+import com.kathesama.app.service.infrastructure.adapter.input.rest.dto.model.response.ProductResponse;
 import com.kathesama.app.service.infrastructure.adapter.input.rest.mapper.ItemRestMapper;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
@@ -12,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -23,16 +22,17 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @RestController
 @RequestMapping("/items")
-//@AllArgsConstructor
 public class ItemController {
-    @Qualifier("itemServiceFeign")
+
     private final ItemServiceInputPort itemService;
 
     private final ItemRestMapper itemMapper;
 
     private final CircuitBreakerFactory cbFactory;
 
-    public ItemController(ItemServiceInputPort itemService, ItemRestMapper itemMapper, CircuitBreakerFactory cbFactory) {
+    public ItemController(@Qualifier("itemServiceFeign") ItemServiceInputPort itemService,
+                          ItemRestMapper itemMapper,
+                          CircuitBreakerFactory cbFactory) {
         this.itemService = itemService;
         this.itemMapper = itemMapper;
         this.cbFactory = cbFactory;
@@ -56,6 +56,7 @@ public class ItemController {
             .run(() -> itemMapper.toItemResponse(itemService.findById(productId, quantity)),
                  (error) ->   alternativeCircuit(productId, quantity, error));
     }
+
     @CircuitBreaker(name = "items", fallbackMethod = "alternativeCircuit") //usando anotaciones la configuración solo funciona via .yml
     @GetMapping("/api/v3/{productId}/{quantity}")
     public ItemResponse findByProductIdAnnotations(@PathVariable Long productId, @PathVariable Long quantity) {
@@ -64,7 +65,7 @@ public class ItemController {
 
     @TimeLimiter(name = "items", fallbackMethod = "alternativeCircuitTimer") //usando anotaciones la configuración solo funciona via .yml
     @GetMapping("/api/v4/{productId}/{quantity}")
-    public CompletableFuture<ItemResponse> findByProductIdAnnotationsV2(@PathVariable Long productId, @PathVariable Long quantity) {
+    private CompletableFuture<ItemResponse> findByProductIdAnnotationsV2(@PathVariable Long productId, @PathVariable Long quantity) {
         return CompletableFuture.supplyAsync(() -> itemMapper.toItemResponse(itemService.findById(productId, quantity)));
     }
 
@@ -117,4 +118,19 @@ public class ItemController {
         return itemMapper.toItemResponse(item);
     }
     // [END OF CODE FOR TESTING RESILIENCE4J]
+
+    @PostMapping("/api/v1")
+    public Product createProduct(@RequestBody Product product) {
+        return itemService.save(product);
+    }
+
+    @PutMapping("/api/v1/{id}")
+    public Product editProduct(@PathVariable Long id, @RequestBody Product product) {
+        return itemService.update(id, product);
+    }
+
+    @DeleteMapping("/api/v1/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        itemService.delete(id);
+    }
 }

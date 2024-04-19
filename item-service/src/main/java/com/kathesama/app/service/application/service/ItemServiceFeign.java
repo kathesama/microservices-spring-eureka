@@ -1,5 +1,6 @@
 package com.kathesama.app.service.application.service;
 
+import com.kathesama.app.common.model.Product;
 import com.kathesama.app.service.application.ports.input.ItemServiceInputPort;
 import com.kathesama.app.service.application.ports.output.ProductClientRest;
 import com.kathesama.app.service.domain.model.Item;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Primary
+//@Primary
 @RequiredArgsConstructor
 @Service("itemServiceFeign")
 public class ItemServiceFeign implements ItemServiceInputPort {
@@ -33,7 +34,34 @@ public class ItemServiceFeign implements ItemServiceInputPort {
 
     @Override
     public Item findById(Long id, Long quantity) {
-        log.info("looking register for product: {}", id);
+        log.info("ItemServiceFeign - looking register for product: {}", id);
         return new Item(productMapper.toProduct(feignPersistencePort.findById(id)), quantity);
+    }
+
+    @Override
+    public Product save(Product product) {
+        log.info("ItemServiceFeign - Creating register for product: {}", product.getName());
+        return productMapper.toProduct(
+                feignPersistencePort.create(
+                    productMapper.toProductCreateRequest(product)
+                )
+        );
+    }
+
+    @Override
+    public Product update(Long id, Product product) {
+        log.info("ItemServiceFeign - Creating register for product: {}", id);
+        return productMapper.toProduct(
+                feignPersistencePort.update(
+                        id,
+                        productMapper.toProductCreateRequest(product)
+                )
+        );
+    }
+
+    @Override
+    public void delete(Long id) {
+        log.info("ItemServiceFeign - deleting register for product: {}", id);
+        feignPersistencePort.delete(id);
     }
 }
