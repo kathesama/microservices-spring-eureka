@@ -14,9 +14,14 @@
         <mockito.version>4.3.1</mockito.version>
         <feign.version>4.1.1</feign.version>
         <eureka.version>4.1.1</eureka.version>
+        <spring.cloud.netflix.version>4.1.1</spring.cloud.netflix.version>
         <spring.cloud.gateway.version>4.1.1</spring.cloud.gateway.version>
         <spring.cloud.config.server.version>4.1.1</spring.cloud.config.server.version>
         <spring.cloud.resilience4j.version>3.1.1</spring.cloud.resilience4j.version>
+
+        <spring.security.oauth2.resource.server.version>6.2.4</spring.security.oauth2.resource.server.version>
+        <spring.security.oauth2.jose.version>6.2.4</spring.security.oauth2.jose.version>
+        <spring.boot.starter.security.version>3.2.5</spring.boot.starter.security.version>
     </properties>
 
     <parent>
@@ -35,10 +40,11 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>infrastructure</module>
         <module>common-domain</module>
         <module>product-service</module>
         <module>item-service</module>
-        <module>infrastructure</module>
+        <module>user-service</module>
     </modules>
 
     <dependencyManagement>

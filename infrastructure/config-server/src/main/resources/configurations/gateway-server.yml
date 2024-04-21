@@ -5,6 +5,12 @@ spring:
     web-application-type: reactive
   application:
     name: gateway-server
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/spring-boot-realm-dev
+          jwk-set-uri: http://localhost:9090/realms/spring-boot-realm-dev/protocol/openid-connect/certs
   cloud:
     gateway:
       discovery:
@@ -13,16 +19,24 @@ spring:
       routes:
         - id: product-service
           uri: lb://product-service
-          order: 8000
           predicates:
             - Path=/products/api/v1/**
           filters:
             - ExampleCookie=Hello world, user, kathesama
         - id: item-service
           uri: lb://item-service
-          order: 8001
           predicates:
             - Path=/items/api/**
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/users/api/**
+jwt:
+  auth:
+    converter:
+      principle-attribute: preferred_username
+      resource-id: spring-client-credentials-id
+
 eureka:
   instance:
     hostname: localhost

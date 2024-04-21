@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,11 +40,13 @@ public class ItemController {
     }
 
     @GetMapping("/api/v1")
+    @PreAuthorize("hasRole('admin_client_role')")
     public List<ItemResponse> findAll() {
         return itemMapper.toItemResponseList(itemService.findALl());
     }
 
     @GetMapping("/api/v1/{productId}/{quantity}")
+    @PreAuthorize("hasRole('admin_client_role') or hasRole('user_interconsumer_role')")
     public ItemResponse findByProductId(@PathVariable Long productId, @PathVariable Long quantity) {
         return itemMapper.toItemResponse(itemService.findById(productId, quantity));
     }

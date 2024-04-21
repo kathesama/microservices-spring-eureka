@@ -2,6 +2,7 @@ package com.kathesama.app.service.application.ports.output;
 
 import com.kathesama.app.service.infrastructure.adapter.input.rest.dto.model.request.ProductCreateRequest;
 import com.kathesama.app.service.infrastructure.adapter.input.rest.dto.model.response.ProductResponse;
+import com.kathesama.app.service.infrastructure.interceptor.ItemProductClientConfiguration;
 import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "product-service", url = "localhost:8000")
+@FeignClient(name = "product-service", configuration = ItemProductClientConfiguration.class)
 public interface ProductClientRest {
     @GetMapping("/products/api/v1")
     public List<ProductResponse> findAll();

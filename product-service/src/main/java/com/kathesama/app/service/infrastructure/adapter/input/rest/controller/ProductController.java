@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class ProductController {
     private final ProductRestMapper productMapper;
 
     @GetMapping("/api/v1")
+    @PreAuthorize("hasRole('user_interconsumer_role')")
     public List<ProductResponse> findAll() {
         return productMapper.toProductResponseList(productService.findAll());
     }
